@@ -117,7 +117,7 @@ public class AddStudentController implements Initializable {
                 || student_gender.getSelectionModel().getSelectedItem().isEmpty()) {
             alert.errorMessage("Please fill all blank fields.");
         } else {
-            connect = Database.connectDB();
+            connect = db.connectDB();
 
             String checkStudentNum = "SELECT * FROM student WHERE student_id = '"
                     + student_number.getText() + "'";
@@ -368,7 +368,7 @@ public class AddStudentController implements Initializable {
         String selectData = "SELECT * FROM course WHERE course = '"
                 + student_course.getSelectionModel().getSelectedItem() + "' AND date_delete IS NULL";
 
-        connect = Database.connectDB();
+        connect = db.connectDB();
 
         try {
             prepare = connect.prepareStatement(selectData);
@@ -389,7 +389,7 @@ public class AddStudentController implements Initializable {
             if (ListData.temp_studentNumber != null) {
                 String sql = "SELECT * FROM student WHERE student_id = '"
                         + ListData.temp_studentNumber + "'";
-                connect = Database.connectDB();
+                connect = db.connectDB();
 
                 prepare = connect.prepareStatement(sql);
                 result = prepare.executeQuery();

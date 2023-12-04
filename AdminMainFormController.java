@@ -449,7 +449,7 @@ public class AdminMainFormController implements Initializable {
 
     public void dashboardDisplayTS() {
         String sql = "SELECT COUNT(id) FROM student WHERE date_delete IS NULL";
-        connect = Database.connectDB();
+        connect = db.connectDB();
         int tempTS = 0;
         try {
             prepare = connect.prepareStatement(sql);
@@ -466,7 +466,7 @@ public class AdminMainFormController implements Initializable {
 
     public void dashboardDisplayTT() {
         String sql = "SELECT COUNT(id) FROM teacher WHERE date_delete IS NULL";
-        connect = Database.connectDB();
+        connect = db.connectDB();
         int tempTT = 0;
         try {
             prepare = connect.prepareStatement(sql);
@@ -486,7 +486,7 @@ public class AdminMainFormController implements Initializable {
         java.sql.Date sqlDate = new java.sql.Date(date.getTime());
         String sql = "SELECT COUNT(id) FROM student WHERE date_delete IS NULL AND date_insert = '"
                 + sqlDate + "'";
-        connect = Database.connectDB();
+        connect = db.connectDB();
         int tempSRT = 0;
         try {
             prepare = connect.prepareStatement(sql);
@@ -506,7 +506,7 @@ public class AdminMainFormController implements Initializable {
         Date date = new Date();
         java.sql.Date sqlDate = new java.sql.Date(date.getTime());
         String sql = "SELECT SUM(payment) FROM student WHERE status_payment = 'Paid' AND date_delete IS NULL";
-        connect = Database.connectDB();
+        connect = db.connectDB();
         double tempTI = 0;
         try {
             prepare = connect.prepareStatement(sql);
@@ -527,7 +527,7 @@ public class AdminMainFormController implements Initializable {
 
         String sql = "SELECT date_insert, COUNT(id) FROM student WHERE date_delete IS NULL GROUP BY TIMESTAMP(date_insert) ASC LIMIT 9";
 
-        connect = Database.connectDB();
+        connect = db.connectDB();
 
         try {
             XYChart.Series chart = new XYChart.Series<>();
@@ -553,7 +553,7 @@ public class AdminMainFormController implements Initializable {
 
         String sql = "SELECT date_insert, COUNT(id) FROM teacher WHERE date_delete IS NULL GROUP BY TIMESTAMP(date_insert) ASC LIMIT 5";
 
-        connect = Database.connectDB();
+        connect = db.connectDB();
 
         try {
             XYChart.Series chart = new XYChart.Series<>();
@@ -579,7 +579,7 @@ public class AdminMainFormController implements Initializable {
 
         String sql = "SELECT date_insert, SUM(payment) FROM student WHERE status_payment = 'Paid' AND date_delete IS NULL GROUP BY TIMESTAMP(date_insert) ASC LIMIT 5";
 
-        connect = Database.connectDB();
+        connect = db.connectDB();
 
         try {
             XYChart.Series chart = new XYChart.Series<>();
@@ -604,7 +604,7 @@ public class AdminMainFormController implements Initializable {
         ObservableList<StudentData> listData = FXCollections.observableArrayList();
         String selectData = "SELECT * FROM student WHERE date_delete IS NULL";
 
-        connect = Database.connectDB();
+        connect = db.connectDB();
 
         StudentData sData;
 
@@ -714,7 +714,7 @@ public class AdminMainFormController implements Initializable {
             if (alert.confirmMessage("Are you sure you want to Delete Student ID: "
                     + sData.getStudentID() + "?")) {
                 String deleteData = "UPDATE student SET date_delete = ? WHERE student_id = ?";
-                connect = Database.connectDB();
+                connect = db.connectDB();
 
                 try {
                     prepare = connect.prepareStatement(deleteData);
@@ -738,7 +738,7 @@ public class AdminMainFormController implements Initializable {
 
         String sql = "SELECT * FROM teacher WHERE date_delete IS NULL";
 
-        connect = Database.connectDB();
+        connect = db.connectDB();
 
         try {
             prepare = connect.prepareStatement(sql);
@@ -859,7 +859,7 @@ public class AdminMainFormController implements Initializable {
 //        ObservableList listData = FXCollections.observableArrayList(listD);
 //        addTeacher_department.setItems(listData);
         String sql = "SELECT * FROM course WHERE date_delete IS NULL";
-        connect = Database.connectDB();
+        connect = db.connectDB();
 
         try {
             prepare = connect.prepareStatement(sql);
@@ -894,7 +894,7 @@ public class AdminMainFormController implements Initializable {
 
         String sql = "SELECT MAX(id) FROM teacher";
 
-        connect = Database.connectDB();
+        connect = db.connectDB();
         String temp_teacherID = "TID-";
         int temp_count = 0;
 
@@ -944,7 +944,7 @@ public class AdminMainFormController implements Initializable {
                     + ", department, salary, salary_status, image, date_insert, status) "
                     + "VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 
-            connect = Database.connectDB();
+            connect = db.connectDB();
 
             Date date = new Date();
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
@@ -1021,7 +1021,7 @@ public class AdminMainFormController implements Initializable {
                         + "WHERE teacher_id = '"
                         + addTeacher_teacherID.getText() + "'";
 
-                connect = Database.connectDB();
+                connect = db.connectDB();
 
                 try {
                     prepare = connect.prepareStatement(updateData);
@@ -1057,7 +1057,7 @@ public class AdminMainFormController implements Initializable {
             if (alert.confirmMessage("Are you sure you want to Delete Teacher ID: "
                     + addTeacher_teacherID.getText() + "?")) {
                 String deleteData = "UPDATE teacher SET date_delete = ? WHERE teacher_id = ?";
-                connect = Database.connectDB();
+                connect = db.connectDB();
 
                 Date date = new Date();
                 java.sql.Date sqlDate = new java.sql.Date(date.getTime());
@@ -1118,7 +1118,7 @@ public class AdminMainFormController implements Initializable {
         ObservableList<CourseData> listData = FXCollections.observableArrayList();
 
         String sql = "SELECT * FROM course WHERE date_delete IS NULL";
-        connect = Database.connectDB();
+        connect = db.connectDB();
 
         try {
             prepare = connect.prepareStatement(sql);
@@ -1183,7 +1183,7 @@ public class AdminMainFormController implements Initializable {
                 || addCourse_status.getSelectionModel().getSelectedItem().isEmpty()) {
             alert.errorMessage("Please fill all blank fields");
         } else {
-            connect = Database.connectDB();
+            connect = db.connectDB();
 
             String checkCourse = "SELECT * FROM course WHERE course = '"
                     + addCourse_course.getText() + "' AND date_delete IS NULL";
@@ -1242,7 +1242,7 @@ public class AdminMainFormController implements Initializable {
                         + addCourse_status.getSelectionModel().getSelectedItem() + "' "
                         + "WHERE id = " + courseID;
 
-                connect = Database.connectDB();
+                connect = db.connectDB();
 
                 try {
                     prepare = connect.prepareStatement(updateData);
@@ -1274,7 +1274,7 @@ public class AdminMainFormController implements Initializable {
                 Date date = new Date();
                 java.sql.Date sqlDate = new java.sql.Date(date.getTime());
                 String deleteData = "UPDATE course SET date_delete = ? WHERE id = ?";
-                connect = Database.connectDB();
+                connect = db.connectDB();
 
                 try {
                     prepare = connect.prepareStatement(deleteData);
@@ -1319,7 +1319,7 @@ public class AdminMainFormController implements Initializable {
         ObservableList<SubjectData> listData = FXCollections.observableArrayList();
         String sql = "SELECT * FROM subject WHERE date_delete IS NULL";
 
-        connect = Database.connectDB();
+        connect = db.connectDB();
 
         try {
             prepare = connect.prepareStatement(sql);
@@ -1387,7 +1387,7 @@ public class AdminMainFormController implements Initializable {
                 || addSubject_status.getSelectionModel().getSelectedItem().isEmpty()) {
             alert.errorMessage("Please fill all blank fields");
         } else {
-            connect = Database.connectDB();
+            connect = db.connectDB();
 
             String checkSubject = "SELECT * FROM subject WHERE subject_code = '"
                     + addSubject_code.getText() + "' AND date_delete IS NULL";
@@ -1448,7 +1448,7 @@ public class AdminMainFormController implements Initializable {
                         + addSubject_status.getSelectionModel().getSelectedItem() + "' "
                         + "WHERE id = " + subjectID;
 
-                connect = Database.connectDB();
+                connect = db.connectDB();
 
                 try {
                     prepare = connect.prepareStatement(updateData);
@@ -1480,7 +1480,7 @@ public class AdminMainFormController implements Initializable {
                 Date date = new Date();
                 java.sql.Date sqlDate = new java.sql.Date(date.getTime());
                 String deleteData = "UPDATE subject SET date_delete = ? WHERE id = ?";
-                connect = Database.connectDB();
+                connect = db.connectDB();
 
                 try {
                     prepare = connect.prepareStatement(deleteData);
@@ -1512,7 +1512,7 @@ public class AdminMainFormController implements Initializable {
     public void addSubjectCourseList() {
 
         String sql = "SELECT * FROM course WHERE date_delete IS NULL";
-        connect = Database.connectDB();
+        connect = db.connectDB();
 
         try {
             prepare = connect.prepareStatement(sql);
@@ -1548,7 +1548,7 @@ public class AdminMainFormController implements Initializable {
         ObservableList<StudentData> listData = FXCollections.observableArrayList();
         String sql = "SELECT * FROM student WHERE status_payment = 'Pending' AND date_delete IS NULL";
 
-        connect = Database.connectDB();
+        connect = db.connectDB();
 
         try {
             prepare = connect.prepareStatement(sql);
@@ -1646,7 +1646,7 @@ public class AdminMainFormController implements Initializable {
         } else {
             if (alert.confirmMessage("Are you sure?")) {
                 String updateData = "UPDATE student SET status_payment = ? WHERE student_id = ?";
-                connect = Database.connectDB();
+                connect = db.connectDB();
 
                 try {
                     prepare = connect.prepareStatement(updateData);
@@ -1689,7 +1689,7 @@ public class AdminMainFormController implements Initializable {
 
         ObservableList<TeacherData> listData = FXCollections.observableArrayList();
         String sql = "SELECT * FROM teacher WHERE salary_status = 'Pending' AND date_delete IS NULL AND status = 'Active'";
-        connect = Database.connectDB();
+        connect = db.connectDB();
 
         try {
             prepare = connect.prepareStatement(sql);
@@ -1760,7 +1760,7 @@ public class AdminMainFormController implements Initializable {
 
         String sql = "SELECT * FROM teacher WHERE teacher_id = '"
                 + salary_teacherID.getText() + "'";
-        connect = Database.connectDB();
+        connect = db.connectDB();
 
         try {
             prepare = connect.prepareStatement(sql);
@@ -1810,7 +1810,7 @@ public class AdminMainFormController implements Initializable {
                         + "(teacher_id, name, salary_per_day, total_days, salary_paid, date_paid)"
                         + " VALUES(?,?,?,?,?,?)";
 
-                connect = Database.connectDB();
+                connect = db.connectDB();
 
                 try {
                     Date date = new Date();
@@ -1874,7 +1874,7 @@ public class AdminMainFormController implements Initializable {
         ObservableList<SalaryData> listData = FXCollections.observableArrayList();
         String sql = "SELECT * FROM salary";
 
-        connect = Database.connectDB();
+        connect = db.connectDB();
 
         try {
             prepare = connect.prepareStatement(sql);
